@@ -1,7 +1,16 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+ROOT="$(pwd)"
+
+get_url() {
+    basename=$(basename "$1")
+    if [[ -f "$basename" ]]; then
+        return
+    fi
+    run curl -C - -fL -o "$basename.part" "$@"
+    run mv "$basename.part" "$basename"
+}
 
 run() {
     >&2 echo "+ $@"
@@ -10,27 +19,28 @@ run() {
 
 ################################################################################
 # Build LuaJIT
-STAGING_LUAJIT="$ROOT/staging-luajit"
-mkdir -p "$STAGING_LUAJIT"
-LUAJIT="LuaJIT-2.0.3"
-curl -C - -fL -o "$LUAJIT.tar.gz" "http://luajit.org/download/$LUAJIT.tar.gz"
+LUAJIT_STAGING_DIR="$ROOT/staging-luajit"
+mkdir -p "$LUAJIT_STAGING_DIR"
+
+LUAJIT_TARBALL_NAME="LuaJIT-2.0.3.tar.gz"
+get_url "http://luajit.org/download/$LUAJIT_TARBALL_NAME"
 
 mkdir -p "luajit-build"
 pushd "luajit-build"
-tar xfv "$ROOT/$LUAJIT.tar.gz" --strip-components=1
-perl -pi -e "s|/usr/local|/usr|g" Makefile
-make amalg install "DESTDIR=$STAGING_LUAJIT"
+run tar xfv "$ROOT/$LUAJIT_TARBALL_NAME" --strip-components=1
+run perl -pi -e "s|/usr/local|/usr|g" Makefile
+run make amalg install "DESTDIR=$LUAJIT_STAGING_DIR"
 popd
 
 # Remove shared libs -- we want to statically link
-find "$STAGING_LUAJIT" -name "libluajit-5.1.so*" | xargs rm -v
+run find "$LUAJIT_STAGING_DIR" -name "libluajit-5.1.so*" | xargs -r rm -v
 
 ################################################################################
 # Build Vim
 
 # Install deps
-yum-builddep -y vim-enhanced
-yum install -y             \
+run yum-builddep -y vim-enhanced
+run yum install -y         \
     ruby                   \
     ruby-devel             \
     ctags                  \
@@ -42,35 +52,35 @@ yum install -y             \
     perl-ExtUtils-CBuilder \
     perl-ExtUtils-Embed
 
-STAGING_VIM="$ROOT/staging-vim"
-mkdir -p "$STAGING_VIM"
+VIM_STAGING_DIR="$ROOT/staging-vim"
+mkdir -p "$VIM_STAGING_DIR"
 
-VIM="vim7.4.488"
-run curl -C - -fL -o "$VIM.tar.gz" "http://ftp.debian.org/debian/pool/main/v/vim/vim_7.4.488.orig.tar.gz"
+VIM_TARBALL_NAME="vim_7.4.488.orig.tar.gz"
+get_url "http://ftp.debian.org/debian/pool/main/v/vim/$VIM_TARBALL_NAME"
 
 mkdir -p vim-build
 pushd vim-build
 
-run tar xfv "$ROOT/$VIM.tar.gz" --strip-components=1
+run tar xfv "$ROOT/$VIM_TARBALL_NAME" --strip-components=1
 
-run env PATH="$STAGING_LUAJIT/usr/bin:$PATH" \
-    ./configure                              \
-    --with-features=huge                     \
-    --enable-multibyte                       \
-    --enable-rubyinterp                      \
-    --enable-pythoninterp                    \
-    --enable-perlinterp                      \
-    --enable-luainterp                       \
-    --with-luajit                            \
-    --with-lua-prefix="$STAGING_LUAJIT/usr"  \
-    --enable-gui=gtk2                        \
-    --enable-cscope                          \
+run env PATH="$LUAJIT_STAGING_DIR/usr/bin:$PATH" \
+    ./configure                                  \
+    --with-features=huge                         \
+    --enable-multibyte                           \
+    --enable-rubyinterp                          \
+    --enable-pythoninterp                        \
+    --enable-perlinterp                          \
+    --enable-luainterp                           \
+    --with-luajit                                \
+    --with-lua-prefix="$LUAJIT_STAGING_DIR/usr"  \
+    --enable-gui=gtk2                            \
+    --enable-cscope                              \
     --prefix=/usr
 
 run make "-j$(nproc)"                    \
     install                              \
     VIMRUNTIMEDIR="/usr/share/vim/vim74" \
-    DESTDIR="$STAGING_VIM"
+    DESTDIR="$VIM_STAGING_DIR"
 
 popd
 
