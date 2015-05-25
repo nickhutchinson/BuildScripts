@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 set -euo pipefail
 
 ROOT="$(pwd)"
@@ -19,12 +19,13 @@ run() {
 
 DEPS=(
     asciidoc
-    curl-devel 
+    curl-devel
     expat-devel
-    gettext-devel 
+    gettext-devel
     libcurl-devel
     openssl-devel
     pcre-devel
+    perl-ExtUtils-MakeMaker
     subversion-devel
     zlib-devel
 )
@@ -33,7 +34,7 @@ yum install -y "${DEPS[@]}"
 STAGING="$ROOT/staging-git"
 mkdir -p "$STAGING"
 
-VERSION=2.2.0
+VERSION=2.4.1
 
 get_url "https://www.kernel.org/pub/software/scm/git/git-$VERSION.tar.xz"
 get_url "https://www.kernel.org/pub/software/scm/git/git-manpages-$VERSION.tar.xz"
@@ -61,3 +62,18 @@ pushd "usr/share/man"
 run tar xfv "$ROOT/git-manpages-$VERSION.tar.xz"
 popd # man
 popd # $STAGING
+
+fpm_args=(
+    -s dir
+    -t rpm
+    --rpm-compression=xz
+    --maintainer 'Nick Hutchinson <nick.hutchinson@thefoundry.co.uk>'
+
+    -n git
+    -v "$VERSION"
+    --replaces perl-Git
+    --provides perl-Git
+)
+
+run find "$STAGING" -type f | xargs strip --strip-debug || true
+run fpm "${fpm_args[@]}" -C "$STAGING" .

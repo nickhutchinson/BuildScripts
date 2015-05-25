@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 set -euo pipefail
 
 ROOT="$(pwd)"
@@ -22,7 +22,7 @@ run() {
 LUAJIT_STAGING_DIR="$ROOT/staging-luajit"
 mkdir -p "$LUAJIT_STAGING_DIR"
 
-LUAJIT_TARBALL_NAME="LuaJIT-2.0.3.tar.gz"
+LUAJIT_TARBALL_NAME="LuaJIT-2.0.4.tar.gz"
 get_url "http://luajit.org/download/$LUAJIT_TARBALL_NAME"
 
 mkdir -p "luajit-build"
@@ -55,8 +55,9 @@ run yum install -y         \
 VIM_STAGING_DIR="$ROOT/staging-vim"
 mkdir -p "$VIM_STAGING_DIR"
 
-VIM_TARBALL_NAME="vim_7.4.488.orig.tar.gz"
-get_url "http://ftp.debian.org/debian/pool/main/v/vim/$VIM_TARBALL_NAME"
+VERSION="7.4.729"
+VIM_TARBALL_NAME="v7-4-729.tar.gz"
+get_url "https://github.com/vim/vim/archive/$VIM_TARBALL_NAME"
 
 mkdir -p vim-build
 pushd vim-build
@@ -84,3 +85,19 @@ run make "-j$(nproc)"                    \
 
 popd
 
+fpm_args=(
+    -s dir
+    -t rpm
+    --rpm-compression=xz
+    --maintainer 'Nick Hutchinson <nick.hutchinson@thefoundry.co.uk>'
+
+    -n vim
+    -v "$VERSION"
+
+    --replaces vim-enhanced
+    --replaces vim-common
+    --provides vim-common
+)
+
+run find "$VIM_STAGING_DIR" -type f | xargs strip --strip-debug || true
+run fpm "${fpm_args[@]}" -C "$VIM_STAGING_DIR" .
