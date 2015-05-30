@@ -34,7 +34,7 @@ yum install -y "${DEPS[@]}"
 STAGING="$ROOT/staging-git"
 mkdir -p "$STAGING"
 
-VERSION=2.4.1
+VERSION=2.4.2
 
 get_url "https://www.kernel.org/pub/software/scm/git/git-$VERSION.tar.xz"
 get_url "https://www.kernel.org/pub/software/scm/git/git-manpages-$VERSION.tar.xz"
@@ -71,6 +71,7 @@ fpm_args=(
 
     -n git
     -v "$VERSION"
+    --rpm-auto-add-directories
     --replaces perl-Git
     --provides perl-Git
 )
