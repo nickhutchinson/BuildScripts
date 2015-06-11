@@ -3,6 +3,7 @@ set -euo pipefail
 HERE=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 source "$HERE/_common.sh"
 
+VERSION=4.9.2
 get_url "http://ftpmirror.gnu.org/gcc/gcc-${VERSION}/gcc-${VERSION}.tar.bz2"
 extract "$ROOT/gcc-${VERSION}.tar.bz2" "gcc-src"
 

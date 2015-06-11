@@ -1,10 +1,20 @@
 #!/bin/bash
 deps=(
-    "https://www.softwarecollections.org/en/scls/rhscl/python27/epel-6-x86_64/download/rhscl-python27-epel-6-x86_64.noarch.rpm"
-    scl-utils
+    # GCC
     zlib-devel
+
+    # LLVM
     libxml2-devel
-    python27
+    swig
+    libedit-devel
+    doxygen # not required, but it looks like LLVM is searching for it
+
+    # Python deps
+    sqlite-devel
+    db4-devel
+    libffi-devel
+    openssl-devel
+    tk-devel
 )
 
-yum install "${deps[@]}"
+yum install -y "${deps[@]}"

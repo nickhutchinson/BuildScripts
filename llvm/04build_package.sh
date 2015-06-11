@@ -14,5 +14,6 @@ fpm_args=(
 
     -n "$PACKAGE_NAME"
     -v "$PACKAGE_VERSION"
+    --epoch "$PACKAGE_EPOCH"
 )
 run fpm "${fpm_args[@]}" -C "$STAGING" .
