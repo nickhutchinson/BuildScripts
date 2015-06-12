@@ -2,6 +2,7 @@
 deps=(
     # GCC
     zlib-devel
+    glibc-devel.i686
 
     # LLVM
     libxml2-devel
