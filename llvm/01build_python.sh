@@ -12,7 +12,6 @@ mkdir -p python-patches
 pushd python-patches
 get_url https://raw.githubusercontent.com/Infinidat/relocatable-python/develop/src/patches/python-2.7.8-sysconfig.py.patch
 get_url https://raw.githubusercontent.com/Infinidat/relocatable-python/develop/src/patches/python-2.7.8-disutils-sysconfig.py.patch
-get_url https://raw.githubusercontent.com/Infinidat/relocatable-python/develop/src/patches/python-2.7.8-pythonhome-pythonrun.c.patch
 get_url https://raw.githubusercontent.com/Infinidat/relocatable-python/develop/src/patches/python-2.7.8-redhat-lib64.patch
 get_url https://raw.githubusercontent.com/Infinidat/relocatable-python/develop/src/patches/python-2.7.8-linux-symlink.patch
 popd

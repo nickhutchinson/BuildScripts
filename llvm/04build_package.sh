@@ -11,6 +11,7 @@ fpm_args=(
     --rpm-compression=xz
     --rpm-auto-add-directories
     --maintainer "Nick Hutchinson <nick.hutchinson@thefoundry.co.uk>"
+    --depends libedit
 
     -n "$PACKAGE_NAME"
     -v "$PACKAGE_VERSION"
