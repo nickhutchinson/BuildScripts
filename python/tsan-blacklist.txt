@@ -1,0 +1,2 @@
+fun:PyObject_Realloc
+fun:PyObject_Free
