@@ -3,7 +3,7 @@ set -euo pipefail
 HERE=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 source "$HERE/_common.sh"
 
-VERSION=2.7.10
+VERSION=2.7.3
 get_url "https://www.python.org/ftp/python/${VERSION}/Python-${VERSION}.tar.xz"
 extract "$ROOT/Python-${VERSION}.tar.xz" "python-src"
 
@@ -14,26 +14,11 @@ extract "$ROOT/Python-${VERSION}.tar.xz" "python-src"
 export CC=$TOOLCHAIN_PREFIX/bin/clang++
 export CXX=$TOOLCHAIN_PREFIX/bin/clang++
 
-# Patches to make relocatable
-mkdir -p python-patches
-pushd python-patches
-get_url https://raw.githubusercontent.com/Infinidat/relocatable-python/develop/src/patches/python-2.7.8-sysconfig.py.patch
-get_url https://raw.githubusercontent.com/Infinidat/relocatable-python/develop/src/patches/python-2.7.8-disutils-sysconfig.py.patch
-get_url https://raw.githubusercontent.com/Infinidat/relocatable-python/develop/src/patches/python-2.7.8-redhat-lib64.patch
-get_url https://raw.githubusercontent.com/Infinidat/relocatable-python/develop/src/patches/python-2.7.8-linux-symlink.patch
-popd
-
-pushd python-src
-for f in ../python-patches/*.patch; do
-    patch -N -p1 < "$f"
-done
-popd
-
 # Map of build variant => requried compiler flags
 BUILD_VARIANTS=(
-    release     ""
-    asan+ubsan  "-fsanitize=address,undefined -fno-sanitize=alignment,shift"
-    tsan        "-fsanitize=thread -fsanitize-blacklist=$HERE/tsan-blacklist.txt"
+    release     "-g"
+    asan+ubsan  "-g -fsanitize=address,undefined -fno-sanitize=alignment,shift"
+    tsan        "-g -fsanitize=thread -fsanitize-blacklist=$HERE/tsan-blacklist.txt"
 )
 
 for ((i=0; i < "${#BUILD_VARIANTS[@]}"; i+=2)); do
