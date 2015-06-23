@@ -65,16 +65,3 @@ for ((i=0; i < "${#BUILD_VARIANTS[@]}"; i+=2)); do
         unset ASAN_OPTIONS
     fi
 done
-
-# Build package
-fpm_args=(
-    -s dir
-    -t rpm
-    --rpm-compression=xz
-    --rpm-auto-add-directories
-    --maintainer "$PACKAGE_MAINTAINER"
-    -n "$PACKAGE_NAME"
-    -v "$PACKAGE_VERSION"
-    --epoch "$PACKAGE_EPOCH"
-)
-run fpm "${fpm_args[@]}" -C "$STAGING" .
