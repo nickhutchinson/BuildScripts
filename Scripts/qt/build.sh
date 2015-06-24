@@ -22,7 +22,7 @@ for f in ../qt-patches/*.patch; do
 done
 popd
 
-for build_variant in asan+ubsan tsan release; do
+for build_variant in asan+ubsan tsan release debug; do
     mkspec=linux-x86_64-$build_variant
     mkspec_dir=$SRCROOT/mkspecs/$mkspec
     if [[ ! -d "$mkspec_dir" ]]; then
@@ -47,6 +47,12 @@ for build_variant in asan+ubsan tsan release; do
         -nomake docs
         -no-qt3support
     )
+
+    if [[ $build_variant =~ debug ]]; then
+        config_args+=(-debug)
+    else
+        config_args+=(-release)
+    fi
 
     if [[ $build_variant =~ asan ]]; then
         export ASAN_OPTIONS=detect_leaks=0
