@@ -10,14 +10,8 @@ extract "$ROOT/qt-everywhere-opensource-src-${VERSION}.tar.gz" "qt-src"
 
 SRCROOT=$ROOT/qt-src
 
-mkdir -p qt-patches
-pushd qt-patches
-# Don't strip release builds
-get_url "https://raw.githubusercontent.com/martiert/openembedded-core/f119566477243ce43b727492dc78b9cb3dd76de4/meta/recipes-qt/qt4/qt4-4.8.5/0015-configure-add-nostrip-for-debug-packages.patch"
-popd
-
 pushd qt-src
-for f in ../qt-patches/*.patch; do
+for f in "$HERE/patches/"*.patch; do
     patch -N -p1 < "$f"
 done
 popd
