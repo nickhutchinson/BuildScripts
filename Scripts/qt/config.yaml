@@ -7,5 +7,6 @@ LDFLAGS:  [ --gcc-toolchain=/usr ]
 
 build_variants:
     release:    []
+    debug:      []
     asan+ubsan: [ "-fsanitize=address,undefined", "-fno-sanitize=vptr,function" ]
     tsan:       [ "-fsanitize=thread" ]
