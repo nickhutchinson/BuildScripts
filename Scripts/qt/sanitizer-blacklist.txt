@@ -1,0 +1,8 @@
+# Workarounds for issues in Qt that we can't easily patch.
+
+# src/corelib/kernel/qabstracteventdispatcher.cpp:110
+# Signed integer overflow
+fun:*prepareNewValueWithSerialNumber*
+
+# Invalid QFlag enums (unrepresentable values)
+fun:*QFlags*
