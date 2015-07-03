@@ -1,10 +1,8 @@
 #!/bin/bash
 
-PACKAGE_NAME=katana-qt
-PACKAGE_EPOCH=0
-PACKAGE_VERSION=1.0
+PACKAGE_NAME=qt
 PACKAGE_MAINTAINER="Nick Hutchinson <nick.hutchinson@thefoundry.co.uk>"
-INSTALL_PREFIX=/opt/katana-deps/qt
+INSTALL_PREFIX=/opt/qt
 
 TOOLCHAIN_PREFIX=/opt/toolchains/llvm36-gcc49
 
