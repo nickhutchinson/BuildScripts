@@ -1,0 +1,64 @@
+diff --git a/src/corelib/kernel/qobject.h b/src/corelib/kernel/qobject.h
+index 504ffe7..ac5df38 100644
+--- a/src/corelib/kernel/qobject.h
++++ b/src/corelib/kernel/qobject.h
+@@ -59,6 +59,14 @@ QT_BEGIN_NAMESPACE
+ 
+ QT_MODULE(Core)
+ 
++namespace detail {
++template< class T > struct remove_pointer                    {typedef T type;};
++template< class T > struct remove_pointer<T*>                {typedef T type;};
++template< class T > struct remove_pointer<T* const>          {typedef T type;};
++template< class T > struct remove_pointer<T* volatile>       {typedef T type;};
++template< class T > struct remove_pointer<T* const volatile> {typedef T type;};
++} // namespace detail
++
+ class QEvent;
+ class QTimerEvent;
+ class QChildEvent;
+@@ -156,7 +164,7 @@ public:
+ 
+     template<typename T>
+     inline T findChild(const QString &aName = QString()) const
+-    { return static_cast<T>(qt_qFindChild_helper(this, aName, reinterpret_cast<T>(0)->staticMetaObject)); }
++    { return static_cast<T>(qt_qFindChild_helper(this, aName, detail::remove_pointer<T>::type::staticMetaObject)); }
+ 
+     template<typename T>
+     inline QList<T> findChildren(const QString &aName = QString()) const
+@@ -167,7 +175,7 @@ public:
+             QList<void *> *voidList;
+         } u;
+         u.typedList = &list;
+-        qt_qFindChildren_helper(this, aName, 0, reinterpret_cast<T>(0)->staticMetaObject, u.voidList);
++        qt_qFindChildren_helper(this, aName, 0, detail::remove_pointer<T>::type::staticMetaObject, u.voidList);
+         return list;
+     }
+ 
+@@ -181,7 +189,7 @@ public:
+             QList<void *> *voidList;
+         } u;
+         u.typedList = &list;
+-        qt_qFindChildren_helper(this, QString(), &re, reinterpret_cast<T>(0)->staticMetaObject, u.voidList);
++        qt_qFindChildren_helper(this, QString(), &re, detail::remove_pointer<T>::type::staticMetaObject, u.voidList);
+         return list;
+     }
+ #endif
+@@ -377,7 +385,7 @@ inline T qobject_cast(QObject *object)
+ #if !defined(QT_NO_QOBJECT_CHECK)
+     reinterpret_cast<T>(object)->qt_check_for_QOBJECT_macro(*reinterpret_cast<T>(object));
+ #endif
+-    return static_cast<T>(reinterpret_cast<T>(object)->staticMetaObject.cast(object));
++    return static_cast<T>(detail::remove_pointer<T>::type::staticMetaObject.cast(object));
+ }
+ 
+ template <class T>
+@@ -386,7 +394,7 @@ inline T qobject_cast(const QObject *object)
+ #if !defined(QT_NO_QOBJECT_CHECK)
+     reinterpret_cast<T>(object)->qt_check_for_QOBJECT_macro(*reinterpret_cast<T>(const_cast<QObject *>(object)));
+ #endif
+-    return static_cast<T>(reinterpret_cast<T>(object)->staticMetaObject.cast(object));
++    return static_cast<T>(detail::remove_pointer<T>::type::staticMetaObject.cast(object));
+ }
+ 
+ 

@@ -20,11 +20,22 @@ for build_variant in asan+ubsan tsan release debug; do
     mkspec=linux-x86_64-$build_variant
     mkspec_dir=$SRCROOT/mkspecs/$mkspec
     if [[ ! -d "$mkspec_dir" ]]; then
-        "$HERE/generate_mkspec.py"                 \
-            "--template-dir=$HERE/mkspec_template" \
-            "--config=$HERE/config.yaml"           \
-            "--build-variant=$build_variant"       \
+        mkspec_opts=(
+            "--template-dir=$HERE/mkspec_template"
+            "--config=$HERE/config.yaml"
+            "--build-variant=$build_variant"
             -o "$mkspec_dir"
+        )
+
+        if [[ $build_variant =~ san ]]; then
+            mkspec_opts+=(
+                -v CFLAGS "-fsanitize-blacklist=$HERE/sanitizer-blacklist.txt"
+                -v CXXFLAGS "-fsanitize-blacklist=$HERE/sanitizer-blacklist.txt"
+                -v LDFLAGS "-fsanitize-blacklist=$HERE/sanitizer-blacklist.txt"
+            )
+        fi
+
+        run "$HERE/generate_mkspec.py" "${mkspec_opts[@]}"
     fi
 
     prefix=$INSTALL_PREFIX/qt-$VERSION-$build_variant

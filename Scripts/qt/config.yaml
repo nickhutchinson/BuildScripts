@@ -8,5 +8,5 @@ LDFLAGS:  [ --gcc-toolchain=/usr ]
 build_variants:
     release:    []
     debug:      []
-    asan+ubsan: [ "-fsanitize=address,undefined", "-fno-sanitize=vptr,function" ]
-    tsan:       [ "-fsanitize=thread" ]
+    asan+ubsan: [ "-fsanitize=address,undefined", "-fno-sanitize=shift,vptr,function", "-DQT_NO_QOBJECT_CHECK", ]
+    tsan:       [ "-fsanitize=thread", "-DQT_NO_QOBJECT_CHECK", ]
