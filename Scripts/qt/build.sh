@@ -21,7 +21,7 @@ for build_variant in asan+ubsan tsan release debug; do
     mkspec_dir=$SRCROOT/mkspecs/$mkspec
     if [[ ! -d "$mkspec_dir" ]]; then
         mkspec_opts=(
-            "--template-dir=$HERE/mkspec_template"
+            "--template=$HERE/mkspec_template"
             "--config=$HERE/config.yaml"
             "--build-variant=$build_variant"
             -o "$mkspec_dir"
