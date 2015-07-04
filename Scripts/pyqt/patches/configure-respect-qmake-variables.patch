@@ -1,0 +1,31 @@
+diff --git a/configure-ng.py b/configure-ng.py
+index b6734e2..55fe7df 100644
+--- a/configure-ng.py
++++ b/configure-ng.py
+@@ -1272,6 +1272,8 @@ elementtree.path = %s/PyQt4
+ INSTALLS += elementtree
+ ''' % (source_path('elementtree'), target_config.module_dir))
+ 
++    out_f.write('\n'.join(target_config.qmake_variables))
++
+     out_f.close()
+ 
+     # Make the pyuic4 wrapper executable on platforms that support it.  This
+@@ -1364,6 +1366,8 @@ INCLUDEPATH += %s
+ VPATH = %s
+ ''' % (qmake_quote(sp_designer_dir), qmake_quote(sp_designer_dir)))
+ 
++    fout.write('\n'.join(target_config.qmake_variables))
++
+     fout.close()
+ 
+     # Create the makefile.
+@@ -1405,6 +1409,8 @@ def generate_application_makefile(target_config, verbose, src_dir):
+         pro_lines.append('INCLUDEPATH += %s' % qmake_quote(sp_src_dir))
+         pro_lines.append('VPATH = %s' % qmake_quote(sp_src_dir))
+ 
++    pro_lines.extend(target_config.qmake_variables)
++
+     pro_lines.extend(pro_sources(sp_src_dir))
+ 
+     pro_name = os.path.join(src_dir, app + '.pro')
