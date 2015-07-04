@@ -35,11 +35,10 @@ for ((i=0; i < "${#BUILD_VARIANTS[@]}"; i+=2)); do
     # -rpath: Makes python binary relocatable.
     cflags="$flags -fno-common -fno-omit-frame-pointer -x c --gcc-toolchain=/usr"
     cxxflags="$flags -fno-common -fno-omit-frame-pointer --gcc-toolchain=/usr"
-    ldflags="$flags -Wl,-rpath,\\\$\$ORIGIN/../lib64 --gcc-toolchain=/usr"
+    ldflags="$flags -Wl,-rpath,\\\$\$ORIGIN/../lib --gcc-toolchain=/usr"
 
     config_args=(
         --prefix="$prefix"
-        --libdir="$prefix/lib64"
         --enable-shared
         --with-system-expat
         --with-system-ffi
