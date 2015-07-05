@@ -1,5 +1,5 @@
 #!/bin/bash
-# PyQt build script. Depends on both SIP and Qt itself.
+# PyQt build script. Depends on Python, SIP and Qt itself.
 #
 # IMPORTANT NOTE:
 # PyQt's a little precious: it want to build itself with the exact same flags
@@ -28,9 +28,6 @@ QT_VERSION=4.8.5
 QT_ARCHIVE=$ARTEFACTS_DIR/qt-${QT_VERSION}-x86_64-centos6.tar.xz
 QT_PREFIX_BASE=$ROOT/pyqt-deps/qt
 
-# TODO: debug variant also? Need to figure out how to strip optimisation flags;
-# the 'QMAKE_CXXFLAGS ~= ...' trick used below doesn't appear to work for some
-# reason.
 BUILD_VARIANTS=(asan+ubsan tsan release debug)
 
 # Fetch, extract and patch.
@@ -53,8 +50,7 @@ run mkdir -p "$SIP_PREFIX"
 run tar xfv "$SIP_ARCHIVE" -C "$SIP_PREFIX" --strip-components=2 \
     "./sip-${SIP_VERSION}-release"
 
-# Extract Qt. NOTE: PyQt's build system tries to build with the exact same
-# flags Qt was built with, using some creepy introspection.
+# Extract Qt.
 for build_variant in "${BUILD_VARIANTS[@]}"; do
     run mkdir -p "$QT_PREFIX_BASE/$build_variant"
     run tar xfv "$QT_ARCHIVE" -C "$QT_PREFIX_BASE/$build_variant" \
