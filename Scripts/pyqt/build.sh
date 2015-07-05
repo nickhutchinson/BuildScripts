@@ -1,9 +1,5 @@
 #!/bin/bash
-<<<<<<< HEAD
 # PyQt build script. Depends on Python, SIP and Qt
-=======
-# PyQt build script. Depends on Python, SIP and Qt itself.
->>>>>>> refs/heads/synced/master
 #
 # IMPORTANT NOTE:
 # PyQt's a little precious: it want to build itself with the exact same flags
