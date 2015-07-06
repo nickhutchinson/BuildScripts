@@ -38,7 +38,7 @@ for build_variant in asan+ubsan tsan release; do
         "--platform=$mkspec"
         "--bindir=$prefix/bin"
         "--destdir=$prefix/lib/python${PYTHON_VERSION_MAJOR}/site-packages"
-        "--incdir=$prefix/include/python${PYTHON_VERSION_MAJOR}"
+        "--incdir=$prefix/include"
         "--sipdir=$prefix/share/sip"
     )
 
