@@ -1,0 +1,12 @@
+using clang
+    :
+    : {{CXX|shellescape}}
+    : "<cflags>{{CFLAGS|shellescape}}" "<cxxflags>{{CXXFLAGS|shellescape}}" "<linkflags>{{LDFLAGS|shellescape}}"
+    ;
+
+using python
+    : "{{python_version|shellescape}}"
+    : "{{python_executable|shellescape}}"
+    : "{{python_include_dir|shellescape}}"
+    : "{{python_lib_dir|shellescape}}"
+    ;
