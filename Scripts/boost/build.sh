@@ -51,7 +51,6 @@ for build_variant in "${BUILD_VARIANTS[@]}"; do
 
     build_args=(
         --user-config=user-config.jam
-        --layout=tagged # Because Homebrew does, and they do okay.
         "-j$(nproc)"
         -d2 # verbose
         -q # stop at first error

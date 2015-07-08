@@ -1,8 +1,8 @@
 ---
 CC:       /opt/toolchains/llvm36-gcc49/bin/clang
 CXX:      /opt/toolchains/llvm36-gcc49/bin/clang++
-CFLAGS:   [ -fPIC, -fno-omit-frame-pointer, -fno-common, -g, --gcc-toolchain=/usr, ]
-CXXFLAGS: [ -fPIC, -fno-omit-frame-pointer, -fno-common, -g, --gcc-toolchain=/usr, ]
+CFLAGS:   [ -fvisibility=hidden, -fPIC, -fno-omit-frame-pointer, -fno-common, -g, --gcc-toolchain=/usr, ]
+CXXFLAGS: [ -fvisibility=hidden, -fPIC, -fno-omit-frame-pointer, -fno-common, -g, --gcc-toolchain=/usr, ]
 LDFLAGS:  [ --gcc-toolchain=/usr ]
 
 build_variants:
