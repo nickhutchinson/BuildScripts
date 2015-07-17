@@ -1,8 +1,8 @@
 #!/bin/bash
 
-PACKAGE_NAME=llvm36-gcc49
+PACKAGE_NAME=llvm36
 PACKAGE_EPOCH=1
-PACKAGE_VERSION=1.0
+PACKAGE_VERSION=1.0.1
 INSTALL_PREFIX=/opt/toolchains/$PACKAGE_NAME
 
 ROOT="$(pwd)"
@@ -26,4 +26,3 @@ extract() {
     run mkdir -p "$2"
     run tar xfv "$1" --strip-components=1 -C "$2"
 }
-

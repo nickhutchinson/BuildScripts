@@ -7,7 +7,7 @@ CC=$STAGING/$INSTALL_PREFIX/bin/gcc
 CXX=$STAGING/$INSTALL_PREFIX/bin/g++
 GCC_LIBDIR=$STAGING/$INSTALL_PREFIX/lib64
 
-VERSION=3.6.1
+VERSION=3.6.2
 get_url "http://llvm.org/releases/${VERSION}/llvm-${VERSION}.src.tar.xz"
 get_url "http://llvm.org/releases/${VERSION}/cfe-${VERSION}.src.tar.xz"
 get_url "http://llvm.org/releases/${VERSION}/compiler-rt-${VERSION}.src.tar.xz"
