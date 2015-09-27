@@ -14,6 +14,8 @@ get_url https://raw.githubusercontent.com/Infinidat/relocatable-python/develop/s
 get_url https://raw.githubusercontent.com/Infinidat/relocatable-python/develop/src/patches/python-2.7.8-disutils-sysconfig.py.patch
 get_url https://raw.githubusercontent.com/Infinidat/relocatable-python/develop/src/patches/python-2.7.8-redhat-lib64.patch
 get_url https://raw.githubusercontent.com/Infinidat/relocatable-python/develop/src/patches/python-2.7.8-linux-symlink.patch
+get_url https://raw.githubusercontent.com/Infinidat/relocatable-python/develop/src/patches/python-2.7.8-pythonhome-pythonrun.c.patch
+get_url https://gist.githubusercontent.com/nickhutchinson/ef5eac7df6b5435781c0/raw/0001-Determine-module-path-based-on-DSO-location.patch
 popd
 
 
