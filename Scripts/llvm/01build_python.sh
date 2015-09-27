@@ -29,8 +29,6 @@ config_args=(
     --prefix="/opt/toolchains/$PACKAGE_NAME"
     --libdir="/opt/toolchains/$PACKAGE_NAME/lib64"
     --enable-shared
-    --with-system-expat
-    --with-system-ffi
     --enable-unicode=ucs4
     'LDFLAGS=-Wl,-rpath,\$$ORIGIN/../lib64' # make relocatable
 )

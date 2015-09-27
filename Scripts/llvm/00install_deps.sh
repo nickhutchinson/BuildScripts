@@ -13,7 +13,6 @@ deps=(
     # Python deps
     sqlite-devel
     db4-devel
-    libffi-devel
     openssl-devel
     tk-devel
 )
