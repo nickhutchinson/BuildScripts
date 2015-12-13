@@ -13,7 +13,9 @@ get_url() {
 }
 
 run() {
-    >&2 echo "+ $@"
+    >&2 printf "+"
+    >&2 printf " %q" "$@"
+    >&2 printf "\n"
     "$@"
 }
 
@@ -25,6 +27,7 @@ DEPS=(
     libcurl-devel
     openssl-devel
     pcre-devel
+    perl-Error
     perl-ExtUtils-MakeMaker
     subversion-devel
     zlib-devel
@@ -34,7 +37,7 @@ yum install -y "${DEPS[@]}"
 STAGING="$ROOT/staging-git"
 mkdir -p "$STAGING"
 
-VERSION=2.4.2
+VERSION=2.6.4
 
 get_url "https://www.kernel.org/pub/software/scm/git/git-$VERSION.tar.xz"
 get_url "https://www.kernel.org/pub/software/scm/git/git-manpages-$VERSION.tar.xz"
@@ -68,7 +71,8 @@ fpm_args=(
     -t rpm
     --rpm-compression=xz
     --maintainer 'Nick Hutchinson <nick.hutchinson@thefoundry.co.uk>'
-
+    --depends pcre
+    --depends perl-Error
     -n git
     -v "$VERSION"
     --rpm-auto-add-directories
