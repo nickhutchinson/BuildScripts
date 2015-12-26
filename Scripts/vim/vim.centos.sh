@@ -55,8 +55,8 @@ run yum install -y         \
 VIM_STAGING_DIR="$ROOT/staging-vim"
 mkdir -p "$VIM_STAGING_DIR"
 
-VERSION="7.4.729"
-VIM_TARBALL_NAME="v7-4-729.tar.gz"
+VERSION="7.4.979"
+VIM_TARBALL_NAME="v$VERSION.tar.gz"
 get_url "https://github.com/vim/vim/archive/$VIM_TARBALL_NAME"
 
 mkdir -p vim-build
@@ -97,6 +97,11 @@ fpm_args=(
     --replaces vim-enhanced
     --replaces vim-common
     --provides vim-common
+
+    # Conflicts with vim-minimal
+    -x "*/bin/view"
+    -x "*/bin/rview"
+    -x "*/bin/ex"
 )
 
 run find "$VIM_STAGING_DIR" -type f | xargs strip --strip-debug || true
