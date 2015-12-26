@@ -27,6 +27,7 @@ deps=(
     make
     patch
     wget
+    tar
 
     # GCC
     zlib-devel
