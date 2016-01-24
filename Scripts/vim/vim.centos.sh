@@ -48,17 +48,18 @@ run find "$LUAJIT_STAGING_DIR" -name "libluajit-5.1.so*" | xargs -r rm -v
 
 # Install deps
 run sudo yum-builddep -y vim-enhanced
-run sudo yum install -y         \
-    ruby                   \
-    ruby-devel             \
+run sudo yum install -y    \
     ctags                  \
-    python                 \
-    python-devel           \
+    gtk2-devel             \
     perl                   \
     perl-devel             \
-    perl-ExtUtils-ParseXS  \
     perl-ExtUtils-CBuilder \
-    perl-ExtUtils-Embed
+    perl-ExtUtils-Embed    \
+    perl-ExtUtils-ParseXS  \
+    python                 \
+    python-devel           \
+    ruby                   \
+    ruby-devel
 
 VIM_STAGING_DIR="$ROOT/staging-vim"
 mkdir -p "$VIM_STAGING_DIR"
