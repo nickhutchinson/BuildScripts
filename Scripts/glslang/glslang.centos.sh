@@ -43,11 +43,17 @@ run tar xfv "$ROOT/$GLSLANG_TARBALL_NAME" --strip-components=1
 # Fix borked CMAKE_INSTALL_PREFIX
 sed -i 's/^set(CMAKE_INSTALL_PREFIX.*$//g' CMakeLists.txt
 
-cmake . -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release
-env DESTDIR=$GLSLANG_STAGING_DIR cmake \
-    --build .                          \
-    --target install                   \
-    --                                 \
+env CXX=/opt/toolchains/llvm37/bin/clang++ \
+    cmake .                                \
+    -DCMAKE_INSTALL_PREFIX=/usr            \
+    -DCMAKE_BUILD_TYPE=Release             \
+    -DCMAKE_EXE_LINKER_FLAGS=-static-libstdc++
+
+env DESTDIR=$GLSLANG_STAGING_DIR \
+    cmake                        \
+    --build .                    \
+    --target install             \
+    --                           \
     -j$(getconf _NPROCESSORS_ONLN)
 
 popd
