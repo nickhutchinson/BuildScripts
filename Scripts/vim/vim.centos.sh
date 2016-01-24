@@ -17,6 +17,14 @@ run() {
     "$@"
 }
 
+sudo() {
+    if [[ $EUID -eq 0 ]]; then
+        "$@"
+    else
+        command sudo "$@"
+    fi
+}
+
 ################################################################################
 # Build LuaJIT
 LUAJIT_STAGING_DIR="$ROOT/staging-luajit"
@@ -39,8 +47,8 @@ run find "$LUAJIT_STAGING_DIR" -name "libluajit-5.1.so*" | xargs -r rm -v
 # Build Vim
 
 # Install deps
-run yum-builddep -y vim-enhanced
-run yum install -y         \
+run sudo yum-builddep -y vim-enhanced
+run sudo yum install -y         \
     ruby                   \
     ruby-devel             \
     ctags                  \
