@@ -4,7 +4,7 @@ PACKAGE_NAME=python
 PACKAGE_MAINTAINER="Nick Hutchinson <nick.hutchinson@thefoundry.co.uk>"
 INSTALL_PREFIX=/opt/python
 
-TOOLCHAIN_PREFIX=/opt/toolchains/llvm36-gcc49
+TOOLCHAIN_PREFIX=/opt/toolchains/llvm37
 
 ROOT="$(pwd)"
 STAGING="$ROOT/staging-${PACKAGE_NAME}"

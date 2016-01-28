@@ -28,7 +28,7 @@ QT_VERSION=4.8.5
 QT_ARCHIVE=$ARTEFACTS_DIR/qt-${QT_VERSION}-x86_64-centos6.tar.xz
 QT_PREFIX_BASE=$ROOT/pyqt-deps/qt
 
-BUILD_VARIANTS=(asan+ubsan tsan release debug)
+BUILD_VARIANTS=(asan asan+ubsan tsan release debug)
 
 # Fetch, extract and patch.
 get_url "http://downloads.sourceforge.net/project/pyqt/PyQt4/PyQt-${VERSION}/PyQt-x11-gpl-${VERSION}.tar.gz"
@@ -116,3 +116,4 @@ for build_variant in "${BUILD_VARIANTS[@]}"; do
 done
 
 run tar cvJf "pyqt-$VERSION-$BUILD_SPEC.tar.xz" -C "$STAGING/$INSTALL_PREFIX" .
+run mv "pyqt-$VERSION-$BUILD_SPEC.tar.xz" ../../Artefacts

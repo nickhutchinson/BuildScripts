@@ -18,7 +18,7 @@ run mkdir -p "$PYTHON_PREFIX"
 run tar xfv "$PYTHON_ARCHIVE" -C "$PYTHON_PREFIX" --strip-components=2 \
     ./python-${PYTHON_VERSION}-release
 
-for build_variant in asan+ubsan tsan release; do
+for build_variant in asan+ubsan asan tsan release; do
     mkdir -p "sip-build-$build_variant"
     pushd "sip-build-$build_variant"
     run rsync -avh "$ROOT/sip-src/" .
@@ -49,3 +49,4 @@ for build_variant in asan+ubsan tsan release; do
 done
 
 run tar cvJf "sip-$VERSION-$BUILD_SPEC.tar.xz" -C "$STAGING/$INSTALL_PREFIX" .
+run mv "sip-$VERSION-$BUILD_SPEC.tar.xz" ../../Artefacts

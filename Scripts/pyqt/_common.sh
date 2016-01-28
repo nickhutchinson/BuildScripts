@@ -2,7 +2,7 @@
 PACKAGE_NAME=pyqt
 PACKAGE_MAINTAINER="Nick Hutchinson <nick.hutchinson@thefoundry.co.uk>"
 
-TOOLCHAIN_PREFIX=/opt/toolchains/llvm36-gcc49
+TOOLCHAIN_PREFIX=/opt/toolchains/llvm37
 CC=$TOOLCHAIN_PREFIX/bin/clang
 CXX=$TOOLCHAIN_PREFIX/bin/clang++
 

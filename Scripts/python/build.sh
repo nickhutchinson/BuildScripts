@@ -18,6 +18,7 @@ export CXX=$TOOLCHAIN_PREFIX/bin/clang++
 BUILD_VARIANTS=(
     release     "-g"
     asan+ubsan  "-g -fsanitize=address,undefined -fno-sanitize=alignment,shift"
+    asan        "-g -fsanitize=address"
     tsan        "-g -fsanitize=thread -fsanitize-blacklist=$HERE/tsan-blacklist.txt"
 )
 
@@ -64,3 +65,6 @@ for ((i=0; i < "${#BUILD_VARIANTS[@]}"; i+=2)); do
         unset ASAN_OPTIONS
     fi
 done
+
+run tar cvJf "python-$VERSION-$BUILD_SPEC.tar.xz" -C "$STAGING/$INSTALL_PREFIX" .
+run mv "python-$VERSION-$BUILD_SPEC.tar.xz" ../../Artefacts

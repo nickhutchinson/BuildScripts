@@ -16,7 +16,7 @@ for f in "$HERE/patches/"*.patch; do
 done
 popd
 
-for build_variant in asan+ubsan tsan release debug; do
+for build_variant in asan asan+ubsan tsan release debug; do
     mkspec=linux-x86_64-$build_variant
     mkspec_dir=$SRCROOT/mkspecs/$mkspec
     if [[ ! -d "$mkspec_dir" ]]; then
@@ -72,3 +72,6 @@ for build_variant in asan+ubsan tsan release debug; do
 
     unset ASAN_OPTIONS
 done
+
+run tar cvJf "qt-$VERSION-$BUILD_SPEC.tar.xz" -C "$STAGING/$INSTALL_PREFIX" .
+run mv "qt-$VERSION-$BUILD_SPEC.tar.xz" ../../Artefacts
