@@ -33,7 +33,7 @@ cmake_config_args=(
 
 mkdir -p llvm-build
 pushd llvm-build
-cmake "${cmake_config_args[@]}"
+env CXXFLAGS=-static-libstdc++ cmake "${cmake_config_args[@]}"
 
 # Ensure executables in the build tree can find gcc libs
 env LD_LIBRARY_PATH="$GCC_LIBDIR" ninja
