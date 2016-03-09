@@ -3,7 +3,7 @@ set -euo pipefail
 HERE=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 source "$HERE/_common.sh"
 
-VERSION=2.7.10
+VERSION=2.7.11
 get_url "https://www.python.org/ftp/python/${VERSION}/Python-${VERSION}.tar.xz"
 extract "$ROOT/Python-${VERSION}.tar.xz" "python-src"
 
